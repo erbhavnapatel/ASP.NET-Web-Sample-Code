@@ -1,0 +1,100 @@
+/********************Paste this file in a new query********************/
+/******Change the name of 'model' in the 4th line to your DB name******/
+
+USE [model]
+GO
+
+/****** Object:  Table [dbo].[Agent]    Script Date: 05-09-2021 20:44:46 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Agent](
+	[AgentCode] [nchar](1) NOT NULL,
+	[AgentName] [nvarchar](50) NOT NULL,
+	[Area] [nvarchar](30) NULL,
+	[Phone] [int] NOT NULL,
+	[AgentCountry] [nvarchar](30) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[AgentCode] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+
+/****** Object:  Table [dbo].[Customer]    Script Date: 05-09-2021 20:45:20 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Customer](
+	[CustCode] [nchar](1) NOT NULL,
+	[CustName] [nvarchar](50) NOT NULL,
+	[City] [nvarchar](20) NULL,
+	[WorkingArea] [nvarchar](30) NULL,
+	[Country] [nvarchar](30) NULL,
+	[Grade] [nchar](5) NOT NULL,
+	[OpeningAmount] [int] NULL,
+	[ReceivedAmount] [int] NULL,
+	[PaymentAmount] [int] NULL,
+	[OutstandingAmount] [int] NULL,
+	[PhoneNo] [int] NOT NULL,
+	[AgentCode] [nchar](1) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[CustCode] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+ALTER TABLE [dbo].[Customer]  WITH CHECK ADD  CONSTRAINT [FK_Customer_Agent] FOREIGN KEY([AgentCode])
+REFERENCES [dbo].[Agent] ([AgentCode])
+GO
+
+ALTER TABLE [dbo].[Customer] CHECK CONSTRAINT [FK_Customer_Agent]
+GO
+
+
+/****** Object:  Table [dbo].[Order]    Script Date: 05-09-2021 20:45:42 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Order](
+	[OrderNo] [nchar](1) NOT NULL,
+	[OrderAmount] [int] NOT NULL,
+	[AdvanceAmount] [int] NULL,
+	[OrderDate] [datetime] NULL,
+	[CustCode] [nchar](1) NULL,
+	[AgentCode] [nchar](1) NULL,
+	[OrderDesc] [nvarchar](300) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[OrderNo] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+ALTER TABLE [dbo].[Order]  WITH CHECK ADD  CONSTRAINT [FK_Order_Agent] FOREIGN KEY([AgentCode])
+REFERENCES [dbo].[Agent] ([AgentCode])
+GO
+
+ALTER TABLE [dbo].[Order] CHECK CONSTRAINT [FK_Order_Agent]
+GO
+
+ALTER TABLE [dbo].[Order]  WITH CHECK ADD  CONSTRAINT [FK_Order_Customer] FOREIGN KEY([CustCode])
+REFERENCES [dbo].[Customer] ([CustCode])
+GO
+
+ALTER TABLE [dbo].[Order] CHECK CONSTRAINT [FK_Order_Customer]
+GO
