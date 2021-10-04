@@ -1,4 +1,4 @@
-# ASP.NET-Web-Sample-Code
+# ASP.NET-Database-First-Approach-Web-API-Sample-Project
 This is a sample code for ASP.NET Core Web API with Swagger Authorization
 
 In this project:
